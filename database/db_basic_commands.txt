@@ -1,0 +1,17 @@
+CREATE DATABASE loadque_email_marketing CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'loadque_app'@'127.0.0.1' IDENTIFIED BY 'YOUR_PASSWORD_HERE';
+GRANT ALL PRIVILEGES ON loadque_email_marketing.* TO 'loadque_app'@'127.0.0.1';
+/*
+-> Open .env
+
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_DATABASE=loadque_email_marketing
+DB_USERNAME=loadque_app
+DB_PASSWORD=YOUR_DATABASE_USER_PASSWORD
+
+
+*/
+
