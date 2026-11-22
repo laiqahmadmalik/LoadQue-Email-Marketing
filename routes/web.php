@@ -14,6 +14,14 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware('auth');
+Route::middleware('auth')->group(function () {
+
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/contacts', function () {
+        return view('contacts.index');
+    })->name('contacts.index');
+
+});

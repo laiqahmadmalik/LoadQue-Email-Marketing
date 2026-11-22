@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f6fa;
+    color: #17243b;
+}
+
+.header {
+    background: #011d48;
+    color: white;
+    padding: 22px 35px;
+}
+
+.header h1 {
+    font-size: 22px;
+}
+
+.header p {
+    color: #b7c9df;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.container {
+    padding: 30px 35px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.search {
+    width: 350px;
+    max-width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dce3ed;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.primary-btn {
+    background: #0561cc;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    background: #011d48;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e8edf4;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-info {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e8edf4;
+    font-size: 13px;
+    color: #77849a;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+th {
+    background: #f8fafd;
+    color: #65748a;
+    text-align: left;
+    font-size: 12px;
+    padding: 15px 18px;
+    white-space: nowrap;
+}
+
+td {
+    padding: 16px 18px;
+    border-top: 1px solid #edf0f5;
+    font-size: 13px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-active {
+    background: #e7f7ee;
+    color: #18834b;
+}
+
+.status-inactive {
+    background: #f0f1f3;
+    color: #687386;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    border-top: 1px solid #e8edf4;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pagination button {
+    padding: 9px 14px;
+    border: 1px solid #dce3ed;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.message {
+    padding: 25px;
+    text-align: center;
+    color: #77849a;
+    font-size: 14px;
+}
+
+.error-message {
+    color: #c62828;
+}
+
+.back-link {
+    display: inline-block;
+    color: #0561cc;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.sort-heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: none;
+    background: transparent;
+    color: #65748a;
+    font: inherit;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.sort-heading:hover {
+    color: #0561cc;
+}
+
+.sort-icon {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 14px;
+}
+
+.sort-icon span {
+    display: block;
+    height: 2px;
+    background: #9aa7b8;
+    border-radius: 2px;
+}
+
+.sort-icon .line-one {
+    width: 6px;
+}
+
+.sort-icon .line-two {
+    width: 10px;
+}
+
+.sort-icon .line-three {
+    width: 14px;
+}
+
+.sort-heading.active .sort-icon.asc .line-one {
+    width: 6px;
+}
+
+.sort-heading.active .sort-icon.asc .line-two {
+    width: 10px;
+}
+
+.sort-heading.active .sort-icon.asc .line-three {
+    width: 14px;
+}
+
+.sort-heading.active .sort-icon.desc .line-one {
+    width: 14px;
+}
+
+.sort-heading.active .sort-icon.desc .line-two {
+    width: 10px;
+}
+
+.sort-heading.active .sort-icon.desc .line-three {
+    width: 6px;
+}
+
+.sort-heading.active .sort-icon span {
+    background: #0561cc;
+}
+
+@media (max-width: 650px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .header {
+        padding: 20px 15px;
+    }
+
+    .search {
+        width: 100%;
+    }
+}
