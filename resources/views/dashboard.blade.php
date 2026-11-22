@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOADQUE | Email Marketing</title>
+    <title>{{ config('branding.name') }}</title>
 
     <style>
         * {
@@ -248,7 +248,7 @@
          alt="LOADQUE Technologies">
 </div>
 
-<div class="brand-subtitle">EMAIL MARKETING</div>
+<div class="brand-subtitle">{{ strtoupper(config('branding.tagline')) }}</div>
 
         <div class="nav-label">MAIN MENU</div>
 
@@ -286,7 +286,7 @@
         <div class="content">
 
             <div class="welcome">
-                <h1>Welcome to LOADQUE</h1>
+                <h1>Welcome to {{ config('branding.name') }}</h1>
                 <p>Manage your contacts and email marketing campaigns.</p>
             </div>
 
@@ -334,7 +334,7 @@
                 <h3>Getting Started</h3>
 
                 <div class="empty-state">
-                    Your LOADQUE Email Marketing workspace is ready.
+                    Your {{ config('branding.name') }} workspace is ready.
                     <br>
                     Start by importing your contacts.
                     <br>

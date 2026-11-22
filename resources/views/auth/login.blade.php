@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campaign Login</title>
+    <title>{{ config('branding.name') }} - Login</title>
 
     <style>
         * {
@@ -156,7 +156,7 @@
 
         <div class="login-header">
             <h1>Welcome Back</h1>
-            <p>Freight. Connected. Simplified.</p>
+            <p>{{ config('branding.tagline') }}</p>
         </div>
 
         <div class="login-body">
