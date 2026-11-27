@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('branding.name') }}</title>
 
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+
     <style>
         * {
             margin: 0;
@@ -20,115 +22,6 @@
             color: #17243b;
         }
 
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 250px;
-            background: #011d48;
-            color: white;
-            padding: 28px 18px;
-            flex-shrink: 0;
-        }
-
-        .brand-logo {
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 5px 10px;
-            margin: 0 auto 10px;
-            max-width: 220px;
-            overflow: hidden;
-        }
-
-        .brand-logo img {
-            display: block;
-            width: 100%;
-            max-height: 85px;
-            object-fit: contain;
-        }
-
-        .brand-subtitle {
-            color: #9db6d0;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-align: center;
-            padding: 5px 0 35px;
-        }
-        .nav-label {
-            color: #8199b6;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 12px;
-            letter-spacing: 1.5px;
-        }
-
-        .nav-link {
-            display: block;
-            color: #d5e1ef;
-            text-decoration: none;
-            padding: 13px 14px;
-            margin: 5px 0;
-            border-radius: 7px;
-            font-size: 14px;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background: #0561cc;
-            color: white;
-        }
-
-        .main {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .topbar {
-            height: 76px;
-            background: white;
-            border-bottom: 1px solid #e8edf4;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 35px;
-        }
-
-        .topbar h2 {
-            font-size: 17px;
-            color: #011d48;
-        }
-
-        .profile {
-            background: #e9f1fa;
-            color: #011d48;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .topbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logout-btn {
-            background: #0561cc;
-            color: #ffffff;
-            border: none;
-            padding: 10px 17px;
-            border-radius: 7px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .logout-btn:hover {
-            background: #011d48;
-        }
         .content {
             padding: 35px;
         }
@@ -216,14 +109,6 @@
         }
 
         @media (max-width: 650px) {
-            .layout {
-                display: block;
-            }
-
-            .sidebar {
-                width: 100%;
-            }
-
             .stats {
                 grid-template-columns: 1fr;
             }
@@ -231,40 +116,17 @@
             .content {
                 padding: 20px;
             }
-
-            .topbar {
-                padding: 0 20px;
-            }
         }
     </style>
 </head>
 
 <body>
-<div class="layout">
 
-    <aside class="sidebar">
-        <div class="brand-logo">
-    <img src="{{ asset('images/loadque-logo.png') }}"
-         alt="LOADQUE Technologies">
-</div>
+<div class="app-layout">
 
-<div class="brand-subtitle">{{ strtoupper(config('branding.tagline')) }}</div>
+    @include('components.sidebar', ['activePage' => 'dashboard'])
 
-        <div class="nav-label">MAIN MENU</div>
-
-        <a href="/" class="nav-link active">▦ &nbsp; Dashboard</a>
-        <a href="#" class="nav-link">♙ &nbsp; Contacts</a>
-        <a href="#" class="nav-link">✉ &nbsp; Campaigns</a>
-        <a href="#" class="nav-link">▤ &nbsp; Reports</a>
-
-        <div class="nav-label" style="margin-top: 25px;">
-            MANAGEMENT
-        </div>
-
-        <a href="#" class="nav-link">⚙ &nbsp; Settings</a>
-    </aside>
-
-    <main class="main">
+    <main class="main-content">
 
         <header class="topbar">
             <h2>Dashboard</h2>
@@ -326,7 +188,9 @@
                     <br>
                     Your recent campaigns will appear here.
                     <br>
-                    <a href="#" class="primary-btn">Create Your First Campaign</a>
+                    <a href="#" class="primary-btn">
+                        Create Your First Campaign
+                    </a>
                 </div>
             </section>
 
@@ -338,13 +202,17 @@
                     <br>
                     Start by importing your contacts.
                     <br>
-                    <a href="#" class="primary-btn">Import Contacts</a>
+                    <a href="#" class="primary-btn">
+                        Import Contacts
+                    </a>
                 </div>
             </section>
 
         </div>
+
     </main>
 
 </div>
+
 </body>
 </html>

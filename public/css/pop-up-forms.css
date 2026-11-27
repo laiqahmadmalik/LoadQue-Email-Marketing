@@ -1,0 +1,221 @@
+/* =========================================
+   ADD / EDIT CONTACT MODAL
+========================================= */
+
+.contact-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(1, 29, 72, 0.58);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.contact-modal-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.contact-modal {
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(12px);
+    transition: transform 0.2s ease;
+}
+
+.contact-modal-overlay.show .contact-modal {
+    transform: translateY(0);
+}
+
+/* HEADER */
+
+.contact-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 25px 30px;
+    border-bottom: 1px solid #e8edf4;
+}
+
+.contact-modal-header h2 {
+    color: #011d48;
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.contact-modal-header p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.contact-modal-close {
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 29px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 3px;
+}
+
+.contact-modal-close:hover {
+    color: #011d48;
+}
+
+/* FORM BODY */
+
+.contact-form-body {
+    padding: 28px 30px;
+    overflow-y: auto;
+}
+
+.contact-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    color: #011d48;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    height: 43px;
+    padding: 0 13px;
+    border: 1px solid #d7e0eb;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #17243b;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #0561cc;
+    box-shadow: 0 0 0 3px rgba(5, 97, 204, 0.10);
+}
+
+.form-group input::placeholder {
+    color: #a0aec0;
+}
+
+/* VALIDATION */
+
+.contact-form-errors {
+    margin-top: 22px;
+    padding: 13px 15px;
+    background: #fff1f1;
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+    color: #b42318;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* FOOTER */
+
+.contact-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 19px 30px;
+    border-top: 1px solid #e8edf4;
+    background: #fafbfd;
+}
+
+.contact-cancel-btn,
+.contact-save-btn {
+    min-width: 115px;
+    height: 41px;
+    padding: 0 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.contact-cancel-btn {
+    background: #ffffff;
+    border: 1px solid #d7e0eb;
+    color: #475569;
+}
+
+.contact-cancel-btn:hover {
+    background: #f1f5f9;
+}
+
+.contact-save-btn {
+    background: #0561cc;
+    border: 1px solid #0561cc;
+    color: #ffffff;
+}
+
+.contact-save-btn:hover {
+    background: #011d48;
+    border-color: #011d48;
+}
+
+.contact-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+    .contact-modal-overlay {
+        padding: 12px;
+    }
+
+    .contact-modal {
+        max-height: 95vh;
+    }
+
+    .contact-modal-header,
+    .contact-form-body {
+        padding: 20px;
+    }
+
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .contact-modal-footer {
+        padding: 15px 20px;
+    }
+}

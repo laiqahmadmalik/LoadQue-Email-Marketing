@@ -24,4 +24,10 @@ Route::middleware('auth')->group(function () {
         return view('contacts.index');
     })->name('contacts.index');
 
+    Route::get('/contacts/deleted', function () {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        return view('contacts.deleted');
+    })->name('contacts.deleted');
+
 });

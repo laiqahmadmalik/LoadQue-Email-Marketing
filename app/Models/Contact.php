@@ -1,10 +1,14 @@
 <?php
+
 namespace App\Models;
 
+use App\Services\PublicIdGenerator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'brokerage_name',
         'contact',
@@ -27,6 +31,30 @@ class Contact extends Model
         'possible_duplicate',
         'duplicate_notes',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Contact $contact) {
+            if (empty($contact->contact_id)) {
+                $contact->contact_id = app(PublicIdGenerator::class)
+                    ->generate('CON');
+            }
+        });
+
+        static::deleting(function (Contact $contact) {
+            if (! $contact->isForceDeleting()) {
+                $userId = auth()->id();
+
+                \Illuminate\Support\Facades\DB::table('contacts')
+                    ->where('id', $contact->getKey())
+                    ->update([
+                        'deleted_by' => $userId,
+                    ]);
+
+                $contact->deleted_by = $userId;
+            }
+        });
+    }
 
     protected function casts(): array
     {

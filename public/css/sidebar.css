@@ -1,0 +1,157 @@
+
+/* =================================
+   APPLICATION LAYOUT
+================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    background: #f4f6fa;
+}
+
+/* =================================
+   SIDEBAR
+================================= */
+
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    min-height: 100vh;
+    background: #011d48;
+    color: white;
+    padding: 28px 18px;
+    flex-shrink: 0;
+}
+
+/* LOGO */
+
+.brand-logo {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin: 0 auto 10px;
+    width: 100%;
+    max-width: 220px;
+    overflow: hidden;
+}
+
+.brand-logo img {
+    display: block;
+    width: 100%;
+    max-height: 85px;
+    object-fit: contain;
+}
+
+.brand-subtitle {
+    color: #9db6d0;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 5px 0 35px;
+}
+
+/* NAVIGATION */
+
+.nav-label {
+    color: #8199b6;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 12px;
+    letter-spacing: 1.5px;
+}
+
+.nav-link {
+    display: block;
+    color: #d5e1ef;
+    text-decoration: none;
+    padding: 13px 14px;
+    margin: 5px 0;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #0561cc;
+    color: white;
+}
+
+/* =================================
+   TOP BAR
+================================= */
+
+.topbar {
+    height: 76px;
+    min-height: 76px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8edf4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 35px;
+}
+
+.topbar h2 {
+    font-size: 17px;
+    color: #011d48;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile {
+    background: #e9f1fa;
+    color: #011d48;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.logout-btn {
+    background: #0561cc;
+    color: #ffffff;
+    border: none;
+    padding: 10px 17px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #011d48;
+}
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 650px) {
+    .app-layout {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        min-height: auto;
+    }
+
+    .topbar {
+        padding: 0 20px;
+    }
+}

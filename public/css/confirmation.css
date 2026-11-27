@@ -1,0 +1,218 @@
+/* CONFIRMATION MODAL */
+
+.app-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.app-modal.is-visible {
+    display: flex;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(1, 29, 72, 0.55);
+    backdrop-filter: blur(3px);
+}
+
+.modal-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    max-height: 85vh;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 20px 60px rgba(1, 29, 72, 0.22);
+    animation: modalAppear 0.2s ease;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* HEADER */
+
+.modal-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 55px 20px 25px;
+    color: #ffffff;
+}
+
+.modal-header.success {
+    background: #16834A;
+}
+
+.modal-header.error {
+    background: #C93636;
+}
+
+.modal-header.warning {
+    background: #D69A16;
+}
+
+.modal-header.info {
+    background: #1769AA;
+}
+
+.modal-header h2 {
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    margin: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* MESSAGE BODY */
+
+.modal-body {
+    padding: 24px 25px 10px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.modal-message-list {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.modal-message-item {
+    padding: 11px 13px;
+    margin-bottom: 9px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+}
+
+.modal-message-item:last-child {
+    margin-bottom: 0;
+}
+
+.modal-message-field {
+    display: block;
+    margin-bottom: 3px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal-message-text {
+    color: #334155;
+    font-size: 14px;
+}
+
+/* ACTION BUTTONS */
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 15px 25px 24px;
+}
+
+.modal-btn {
+    min-width: 115px;
+    padding: 11px 17px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.modal-cancel {
+    background: #ffffff;
+    color: #475569;
+    border: 1px solid #dce3ed;
+}
+
+.modal-cancel:hover {
+    background: #f4f6fa;
+}
+
+.modal-confirm {
+    background: #0561cc;
+    color: #ffffff;
+    border: 1px solid #0561cc;
+}
+
+.modal-confirm:hover {
+    background: #011d48;
+    border-color: #011d48;
+}
+
+.modal-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+    .modal-dialog {
+        max-height: 90vh;
+    }
+
+    .modal-header {
+        padding: 22px 50px 20px 20px;
+    }
+
+    .modal-body {
+        padding: 20px 20px 8px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        padding: 15px 20px 20px;
+    }
+
+    .modal-btn {
+        width: 100%;
+    }
+}

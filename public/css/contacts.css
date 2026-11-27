@@ -249,3 +249,256 @@ td {
         width: 100%;
     }
 }
+
+/* CONTACT ACTION ICONS */
+
+.actions-heading {
+    text-align: center;
+    width: 100px;
+}
+
+.actions-cell {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.action-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin: 0 3px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.edit-btn {
+    color: #0561cc;
+}
+
+.edit-btn:hover {
+    background: #eff6ff;
+    border-color: #0561cc;
+}
+
+.delete-btn {
+    color: #dc2626;
+}
+
+.delete-btn:hover {
+    background: #fef2f2;
+    border-color: #dc2626;
+}
+
+/* TOOLTIP */
+
+.action-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #17243b;
+    color: white;
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 10;
+}
+
+.action-btn:hover::after,
+.action-btn:focus-visible::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.action-btn:focus-visible {
+    outline: 2px solid #0561cc;
+    outline-offset: 2px;
+}
+/* Restore button */
+.restore-btn {
+    background: #0561cc;
+    color: #fff;
+    border: 1px solid #0561cc;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.restore-btn:hover {
+    background: #011d48;
+    border-color: #011d48;
+}
+
+.restore-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+/* Permanent Delete button */
+.permanent-delete-btn {
+    background: #dc2626;
+    color: #fff;
+    border: 1px solid #dc2626;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-left: 6px;
+}
+
+.permanent-delete-btn:hover {
+    background: #991b1b;
+    border-color: #991b1b;
+}
+
+.permanent-delete-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* REUSABLE PAGINATION DESIGN */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 24px;
+    color: #011d48;
+    font-size: 14px;
+}
+
+.pagination-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-size label,
+.pagination-size span {
+    color: #011d48;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pagination-select {
+    padding: 9px 30px 9px 12px;
+    border: 1px solid #dce3ed;
+    border-radius: 7px;
+    background: #fff;
+    color: #011d48;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.pagination-select:focus {
+    border-color: #0561cc;
+}
+
+.pagination-page-info {
+    color: #011d48;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-buttons button {
+    padding: 10px 16px;
+    border: 1px solid #dce3ed;
+    border-radius: 7px;
+    background: #fff;
+    color: #0561cc;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination-buttons button:hover:not(:disabled) {
+    background: #0561cc;
+    border-color: #0561cc;
+    color: #fff;
+}
+
+.pagination-buttons button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .pagination-page-info {
+        order: 3;
+        width: 100%;
+    }
+}
+/* Pagination summary matching table information */
+.pagination-summary {
+    color: #77849a;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+/* FIELD-LEVEL VALIDATION */
+
+.contact-modal .form-group input.is-invalid,
+.contact-modal .form-group select.is-invalid,
+.contact-modal .form-group textarea.is-invalid {
+    border: 1px solid #C93636 !important;
+    box-shadow: 0 0 0 2px rgba(201, 54, 54, 0.08);
+}
+
+.contact-modal .form-group input.is-invalid:focus,
+.contact-modal .form-group select.is-invalid:focus,
+.contact-modal .form-group textarea.is-invalid:focus {
+    border-color: #C93636 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(201, 54, 54, 0.12);
+}
+
+.contact-modal .field-error {
+    display: none;
+    margin-top: 5px;
+    color: #C93636;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.contact-modal .field-error.is-visible {
+    display: block;
+}

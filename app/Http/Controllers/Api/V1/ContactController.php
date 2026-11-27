@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Rules\ValidationRules;
+use App\Services\ApplicationResponseService;
 use App\Services\ContactDuplicateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,13 +47,11 @@ class ContactController extends Controller
         $validated = $request->validate([
             'search' => ['nullable', 'string', 'max:255'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
-
             'sort_by' => [
                 'nullable',
                 'string',
                 Rule::in($sortableFields),
             ],
-
             'sort_direction' => [
                 'nullable',
                 'string',
@@ -61,7 +61,6 @@ class ContactController extends Controller
 
         $query = Contact::query();
 
-        // Search contacts
         if (!empty($validated['search'])) {
             $search = trim($validated['search']);
 
@@ -73,18 +72,15 @@ class ContactController extends Controller
             });
         }
 
-        // Apply sorting
         $sortBy = $validated['sort_by'] ?? 'id';
         $sortDirection = $validated['sort_direction'] ?? 'desc';
 
         $query->orderBy($sortBy, $sortDirection);
 
-        // Add a consistent secondary order
         if ($sortBy !== 'id') {
             $query->orderBy('id', 'desc');
         }
 
-        // Apply pagination
         $contacts = $query->paginate(
             $validated['per_page'] ?? 25
         );
@@ -93,29 +89,264 @@ class ContactController extends Controller
     }
 
     /**
+     * Display a single contact for editing.
+     */
+    public function show(int $id): JsonResponse
+    {
+        $contact = Contact::findOrFail($id);
+
+        return response()->json([
+            'data' => $contact,
+        ]);
+    }
+
+    /**
      * Store a new contact.
      */
     public function store(
         Request $request,
-        ContactDuplicateService $duplicateService
+        ContactDuplicateService $duplicateService,
+        ApplicationResponseService $responseService
     ): JsonResponse {
-        $validated = $request->validate([
-            'brokerage_name' => ['required', 'string', 'max:255'],
-            'contact' => ['nullable', 'string', 'max:255'],
-            'cell_phone' => ['nullable', 'string', 'max:50'],
-            'email' => ['nullable', 'email', 'max:255'],
-            'authorizing_authority' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'province_state' => ['nullable', 'string', 'max:255'],
-            'zip_code' => ['nullable', 'string', 'max:50'],
-        ]);
+
+        $validation = ValidationRules::validate(
+            $request->all(),
+            $this->contactValidationRules()
+        );
+
+        if (!$validation['valid']) {
+            return $responseService->validationError(
+                $validation['errors']
+            );
+        }
+
+        $validated = $request->only($this->contactFields());
 
         $contact = $duplicateService->createContact($validated);
 
-        return response()->json([
-            'message' => 'Contact created successfully.',
-            'data' => $contact,
-        ], 201);
+        return $responseService->success(
+            1001,
+            $contact,
+            201
+        );
+    }
+
+    /**
+     * Update an existing contact.
+     */
+    public function update(
+        Request $request,
+        int $id,
+        ContactDuplicateService $duplicateService,
+        ApplicationResponseService $responseService
+    ): JsonResponse {
+
+        $contact = Contact::findOrFail($id);
+
+        $validation = ValidationRules::validate(
+            $request->all(),
+            $this->contactValidationRules()
+        );
+
+        if (!$validation['valid']) {
+            return $responseService->validationError(
+                $validation['errors']
+            );
+        }
+
+        $validated = $request->only($this->contactFields());
+
+        $contact = $duplicateService->updateContact(
+            $contact,
+            $validated
+        );
+
+        return $responseService->success(
+            1002,
+            $contact
+        );
+    }
+
+    /**
+     * Soft delete a contact.
+     */
+    public function destroy(
+        int $id,
+        ApplicationResponseService $responseService
+    ): JsonResponse {
+
+        $contact = Contact::findOrFail($id);
+
+        $contact->delete();
+
+        return $responseService->success(
+            1003,
+            [
+                'id' => $contact->id,
+                'contact_id' => $contact->contact_id,
+                'deleted_at' => $contact->deleted_at,
+                'deleted_by' => $contact->deleted_by,
+            ]
+        );
+    }
+
+    /**
+     * Display soft-deleted contacts (admin only).
+     */
+    public function deleted(Request $request): JsonResponse
+    {
+        abort_unless($request->user()->isAdmin(), 403);
+
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
+            'page' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $query = Contact::onlyTrashed()
+            ->leftJoin('users', 'contacts.deleted_by', '=', 'users.id')
+            ->select('contacts.*', 'users.name as deleted_by_name');
+
+        if (!empty($validated['search'])) {
+            $search = trim($validated['search']);
+
+            $query->where(function ($q) use ($search) {
+                $q->where('contacts.brokerage_name', 'LIKE', "%{$search}%")
+                    ->orWhere('contacts.contact', 'LIKE', "%{$search}%")
+                    ->orWhere('contacts.email', 'LIKE', "%{$search}%")
+                    ->orWhere('contacts.cell_phone', 'LIKE', "%{$search}%")
+                    ->orWhere('contacts.contact_id', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $contacts = $query
+            ->orderByDesc('contacts.deleted_at')
+            ->paginate($validated['per_page'] ?? 25);
+
+        return response()->json($contacts);
+    }
+
+    /**
+     * Restore a soft-deleted contact (admin only).
+     */
+    public function restore(
+        Request $request,
+        int $id,
+        ApplicationResponseService $responseService
+    ): JsonResponse {
+
+        abort_unless($request->user()->isAdmin(), 403);
+
+        $contact = Contact::onlyTrashed()->findOrFail($id);
+
+        $contact->restore();
+
+        return $responseService->success(
+            1005,
+            [
+                'id' => $contact->id,
+                'contact_id' => $contact->contact_id,
+                'brokerage_name' => $contact->brokerage_name,
+            ]
+        );
+    }
+
+    /**
+     * Permanently delete a soft-deleted contact (admin only).
+     */
+    public function forceDestroy(
+        Request $request,
+        int $id,
+        ApplicationResponseService $responseService
+    ): JsonResponse {
+
+        abort_unless($request->user()->isAdmin(), 403);
+
+        $contact = Contact::onlyTrashed()->findOrFail($id);
+
+        $contactDetails = [
+            'id' => $contact->id,
+            'contact_id' => $contact->contact_id,
+            'brokerage_name' => $contact->brokerage_name,
+        ];
+
+        $contact->forceDelete();
+
+        return $responseService->success(
+            1006,
+            $contactDetails
+        );
+    }
+
+    /**
+     * Shared contact validation rules.
+     */
+    private function contactValidationRules(): array
+    {
+        return [
+            'brokerage_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'contact' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'cell_phone' => ValidationRules::phone(false),
+
+            'email' => ValidationRules::email(false),
+
+            'authorizing_authority' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'address' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'city' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'province_state' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'zip_code' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+        ];
+    }
+
+    /**
+     * Fields allowed when creating or updating contacts.
+     */
+    private function contactFields(): array
+    {
+        return [
+            'brokerage_name',
+            'contact',
+            'authorizing_authority',
+            'email',
+            'cell_phone',
+            'address',
+            'city',
+            'province_state',
+            'zip_code',
+        ];
     }
 }
